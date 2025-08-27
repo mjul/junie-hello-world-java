@@ -68,15 +68,15 @@ Prerequisites:
 - [x] Add basic data access test against H2
 
 ## Phase 5 — OAuth2 client configuration
-- [ ] Base `application.yml` OAuth2 client sections (Azure and GitHub) using env vars
-  - [ ] Azure: issuer-uri, scopes, redirect-uri default `{baseUrl}/login/oauth2/code/{registrationId}`
-  - [ ] GitHub: authorization/token/user-info URIs, user-name-attribute=id
-- [ ] Dev override in `application-dev.yml`
-  - [ ] `spring.security.oauth2.client.registration.github.redirect-uri: {baseUrl}/auth/callback/{registrationId}`
+- [x] Base `application.yml` OAuth2 client sections (Azure and GitHub) using env vars
+  - [x] Azure: issuer-uri, scopes, redirect-uri default `{baseUrl}/login/oauth2/code/{registrationId}`
+  - [x] GitHub: authorization/token/user-info URIs, user-name-attribute=id
+- [x] Dev override in `application-dev.yml`
+  - [x] `spring.security.oauth2.client.registration.github.redirect-uri: {baseUrl}/auth/callback/{registrationId}`
   - [ ] Optionally set Azure similarly if needed
-- [ ] SecurityConfig: set redirection endpoint base URI for dev `"/auth/callback/*"`
-- [ ] Document required environment variables in README
-- [ ] Configure a GitHub OAuth App with callback: `http://localhost:3000/auth/callback/github`
+- [x] SecurityConfig: set redirection endpoint base URI for dev `"/auth/callback/*"`
+- [x] Document required environment variables in README
+- [x] Configure a GitHub OAuth App with callback: `http://localhost:3000/auth/callback/github`
 
 ## Phase 6 — Provider profile mapping and user onboarding
 - [ ] Implement `ProviderProfile` record to normalize user data
