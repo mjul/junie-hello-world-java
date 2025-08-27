@@ -103,9 +103,9 @@ Prerequisites:
   - [x] POST `/logout` terminates session and redirects to `/login?logout`
 
 ## Phase 8 — Error handling and UX polish
-- [ ] Global error handling (`@ControllerAdvice` or `ErrorController`) to render friendly error page
-- [ ] Handle OAuth failures and consent denials with redirect to `/login?error`
-- [ ] Input validation and safe defaults
+- [x] Global error handling (`@ControllerAdvice` or `ErrorController`) to render friendly error page
+- [x] Handle OAuth failures and consent denials with redirect to `/login?error`
+- [x] Input validation and safe defaults
 
 ## Phase 9 — Logging, observability, and hardening
 - [ ] Configure SLF4J/Logback; mask secrets
