@@ -1,0 +1,7 @@
+server:
+  port: 3000
+
+spring:
+  thymeleaf:
+    cache: false
+  # In later phases we will configure the GitHub redirect URI override and dev datasource here.
