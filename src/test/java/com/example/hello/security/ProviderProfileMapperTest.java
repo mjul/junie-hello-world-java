@@ -29,11 +29,10 @@ public class ProviderProfileMapperTest {
 
     @Test
     void githubMapping_fallsBackToLoginWhenNameMissing() {
-        Map<String, Object> attrs = Map.of(
-                "id", 777,
-                "login", "no-name",
-                "name", null
-        );
+        Map<String, Object> attrs = new HashMap<>();
+        attrs.put("id", 777);
+        attrs.put("login", "no-name");
+        attrs.put("name", null);
         ProviderProfile p = ProviderProfileMapper.fromGithub(attrs);
         assertThat(p.displayName()).isEqualTo("no-name");
         assertThat(p.username()).isEqualTo("no-name");
