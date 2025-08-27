@@ -1,0 +1,200 @@
+name: Create Issues from docs/tasks.md
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/tasks.md'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  create_issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create issues from tasks.md and update parent issue #8
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const OWNER = context.repo.owner;
+            const REPO = context.repo.repo;
+            const PARENT_ISSUE_NUMBER = 8;
+
+            function ensureLabel(name, color, description) {
+              return github.rest.issues.getLabel({ owner: OWNER, repo: REPO, name }).catch(async (e) => {
+                if (e.status === 404) {
+                  core.info(`Label "${name}" does not exist. Creating...`);
+                  return github.rest.issues.createLabel({ owner: OWNER, repo: REPO, name, color, description });
+                }
+                throw e;
+              });
+            }
+
+            function stripMd(s) {
+              return s.replace(/`/g, '').trim();
+            }
+
+            function isTaskLine(line) {
+              return /^\s*-\s*\[(.| )\]/.test(line);
+            }
+
+            function parseTasks(md) {
+              const lines = md.split(/\r?\n/);
+              let phase = '';
+              const tasks = [];
+              const stack = []; // track parent tasks by indent
+
+              for (let raw of lines) {
+                const line = raw.replace(/\t/g, '    ');
+
+                // Phase headers
+                const phaseMatch = line.match(/^##\s+(.+?)\s*$/);
+                if (phaseMatch) {
+                  phase = phaseMatch[1].trim();
+                  // reset parent stack on new phase
+                  stack.length = 0;
+                  continue;
+                }
+
+                // Until we hit the first phase header, ignore any checkboxes (e.g., Legend)
+                if (!phase) continue;
+
+                // Task line
+                const m = line.match(/^(\s*)-\s*\[(.| )\]\s+(.*)$/);
+                if (!m) continue;
+                const indent = m[1].length;
+                const mark = m[2]; // ' ', '~', 'x'
+                const titleRaw = m[3];
+                const title = stripMd(titleRaw);
+
+                // Remaining = not done; include not started ' ' and in-progress '~'
+                const isRemaining = mark !== 'x' && mark !== 'X';
+                if (!isRemaining) continue;
+
+                // maintain parent stack by indent (2-space nesting typical)
+                while (stack.length && stack[stack.length - 1].indent >= indent) {
+                  stack.pop();
+                }
+                const parents = stack.map(e => e.title);
+                const fullTitle = `Task: ${phase}${parents.length ? ' — ' + parents.join(' / ') : ''}${parents.length ? ' / ' : ' — '}${title}`;
+
+                tasks.push({
+                  phase,
+                  parents,
+                  title,
+                  fullTitle,
+                  originalLine: raw,
+                });
+
+                // push current as potential parent
+                stack.push({ indent, title });
+              }
+              return tasks;
+            }
+
+            async function findIssueByExactTitle(title) {
+              const q = `repo:${OWNER}/${REPO} in:title "${title.replace(/"/g, '\\"')}" type:issue`;
+              const res = await github.rest.search.issuesAndPullRequests({ q, per_page: 5 });
+              const hits = res.data.items || [];
+              return hits.find(i => i.title === title && i.repository_url.endsWith(`/${OWNER}/${REPO}`));
+            }
+
+            async function createIssueIfMissing(task, labels) {
+              const existing = await findIssueByExactTitle(task.fullTitle);
+              if (existing) {
+                core.info(`Found existing issue #${existing.number} for "${task.fullTitle}"`);
+                return existing;
+              }
+
+              const bodyLines = [];
+              bodyLines.push(`This issue was auto-generated from docs/tasks.md.`);
+              bodyLines.push('');
+              bodyLines.push(`Phase: ${task.phase}`);
+              if (task.parents.length) {
+                bodyLines.push(`Hierarchy: ${task.parents.join(' / ')} / ${task.title}`);
+              } else {
+                bodyLines.push(`Task: ${task.title}`);
+              }
+              bodyLines.push('');
+              bodyLines.push('Original task line:');
+              bodyLines.push('');
+              bodyLines.push('> ' + task.originalLine.trim());
+              bodyLines.push('');
+              bodyLines.push('Acceptance Criteria:');
+              bodyLines.push('- Implement the described task.');
+              bodyLines.push('- Include appropriate tests and documentation updates as needed.');
+              bodyLines.push('- Reference this issue in related PRs.');
+              bodyLines.push('');
+              bodyLines.push('Part of #8');
+
+              const createRes = await github.rest.issues.create({
+                owner: OWNER,
+                repo: REPO,
+                title: task.fullTitle,
+                body: bodyLines.join('\n'),
+                labels,
+              });
+              core.info(`Created issue #${createRes.data.number}: ${task.fullTitle}`);
+              return createRes.data;
+            }
+
+            async function updateParentIssueChecklist(issues) {
+              try {
+                const parent = await github.rest.issues.get({ owner: OWNER, repo: REPO, issue_number: PARENT_ISSUE_NUMBER });
+                const beginMarker = '<!-- auto-subissues:start -->';
+                const endMarker = '<!-- auto-subissues:end -->';
+                const header = '\nAuto-generated sub-issues (do not edit manually)\n\n';
+
+                const lines = issues.map(i => `- [ ] #${i.number} ${i.title}`);
+                const section = beginMarker + '\n' + header + lines.join('\n') + '\n' + endMarker;
+
+                let body = parent.data.body || '';
+                if (body.includes(beginMarker) && body.includes(endMarker)) {
+                  // replace existing section
+                  body = body.replace(new RegExp(beginMarker + '[\s\S]*?' + endMarker, 'm'), section);
+                } else {
+                  // append
+                  body = (body ? body + '\n\n' : '') + section;
+                }
+
+                await github.rest.issues.update({ owner: OWNER, repo: REPO, issue_number: PARENT_ISSUE_NUMBER, body });
+                core.info(`Updated parent issue #${PARENT_ISSUE_NUMBER} checklist.`);
+              } catch (e) {
+                core.warning(`Could not update parent issue #${PARENT_ISSUE_NUMBER}: ${e.message}`);
+              }
+            }
+
+            // Main
+            const mdPath = path.join(process.env.GITHUB_WORKSPACE || '.', 'docs', 'tasks.md');
+            if (!fs.existsSync(mdPath)) {
+              core.setFailed(`File not found: ${mdPath}`);
+              return;
+            }
+            const md = fs.readFileSync(mdPath, 'utf8');
+            const tasks = parseTasks(md);
+            if (!tasks.length) {
+              core.info('No remaining tasks found to create issues for.');
+              return;
+            }
+
+            // Ensure labels
+            await ensureLabel('task', '0e8a16', 'Work item generated from docs/tasks.md');
+            await ensureLabel('auto-generated', '5319e7', 'Created by automation');
+
+            const createdOrExisting = [];
+            for (const t of tasks) {
+              const issue = await createIssueIfMissing(t, ['task', 'auto-generated']);
+              createdOrExisting.push(issue);
+            }
+
+            // Update parent issue with checklist
+            await updateParentIssueChecklist(createdOrExisting);
