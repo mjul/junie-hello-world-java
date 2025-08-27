@@ -39,11 +39,13 @@ public class SecurityConfig {
                 http.oauth2Login(oauth -> oauth
                     .redirectionEndpoint(redir -> redir.baseUri("/auth/callback/*"))
                     .userInfoEndpoint(u -> u.userService(customOAuth2UserService))
+                    .failureUrl("/login?error")
                     .defaultSuccessUrl("/me", true)
                 );
             } else {
                 http.oauth2Login(oauth -> oauth
                     .userInfoEndpoint(u -> u.userService(customOAuth2UserService))
+                    .failureUrl("/login?error")
                     .defaultSuccessUrl("/me", true)
                 );
             }
