@@ -31,3 +31,18 @@ spring:
             token-uri: https://github.com/login/oauth/access_token
             user-info-uri: https://api.github.com/user
             user-name-attribute: id
+
+server:
+  servlet:
+    session:
+      cookie:
+        same-site: lax
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    env:
+      keys-to-sanitize: password,secret,token,key,client-secret,github_client_secret,azure_client_secret,spring.datasource.password

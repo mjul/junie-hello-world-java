@@ -1,0 +1,12 @@
+--- src/main/java/com/example/hello/config/SecurityConfig.java	(revision Before)
++++ src/main/java/com/example/hello/config/SecurityConfig.java	(revision After)
+@@ -71,4 +71,9 @@
+       }
+     }
+ 
+-    // Default CSRF is enabled by Spring Securi+    // Default CSRF is enabled by Spring Security
++    http.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login?logout"));
++
++    return http.build();
++  }
++}

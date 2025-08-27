@@ -1,0 +1,10 @@
+--- src/main/java/com/example/hello/domain/User.java	(revision Before)
++++ src/main/java/com/example/hello/domain/User.java	(revision After)
+@@ -130,4 +130,7 @@
+     return lastLoginAt;
+   }
+ 
+-  public void setLastLoginAt(Instant lastLogin+  public void setLastLoginAt(Instant lastLoginAt) {
++    this.lastLoginAt = lastLoginAt;
++  }
++}

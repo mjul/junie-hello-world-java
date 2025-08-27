@@ -1,0 +1,10 @@
+--- src/test/java/com/example/hello/web/MeControllerIntegrationTest.java	(revision Before)
++++ src/test/java/com/example/hello/web/MeControllerIntegrationTest.java	(revision After)
+@@ -34,4 +34,7 @@
+                               attrs.put("avatar_url", "http://example.com/avatar.png");
+                             })))
+         .andExpect(status().isOk())
+-        .andExp+        .andExpect(content().string(containsString("Hello, Octo Cat!")))
++        .andExpect(content().string(containsString("name=\"_csrf\"")));
++  }
++}
