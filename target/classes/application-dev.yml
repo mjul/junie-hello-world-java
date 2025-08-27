@@ -14,4 +14,9 @@ spring:
       ddl-auto: validate
   flyway:
     enabled: true
-  # In later phases we will configure the GitHub redirect URI override and dev datasource here.
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            redirect-uri: "{baseUrl}/auth/callback/{registrationId}"

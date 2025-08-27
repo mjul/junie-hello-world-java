@@ -1,5 +1,6 @@
 package com.example.hello.config;
 
+import com.example.hello.security.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.ObjectProvider;
@@ -19,8 +20,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                                  ObjectProvider<ClientRegistrationRepository> clientRegistrations,
-                                                  Environment env) throws Exception {
+                                                 ObjectProvider<ClientRegistrationRepository> clientRegistrations,
+                                                 Environment env,
+                                                 CustomOAuth2UserService customOAuth2UserService) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/login", "/error", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
@@ -37,9 +39,12 @@ public class SecurityConfig {
             if (devProfile) {
                 http.oauth2Login(oauth -> oauth
                     .redirectionEndpoint(redir -> redir.baseUri("/auth/callback/*"))
+                    .userInfoEndpoint(u -> u.userService(customOAuth2UserService))
                 );
             } else {
-                http.oauth2Login(Customizer.withDefaults());
+                http.oauth2Login(oauth -> oauth
+                    .userInfoEndpoint(u -> u.userService(customOAuth2UserService))
+                );
             }
         }
 
