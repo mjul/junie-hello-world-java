@@ -14,11 +14,16 @@
         .btn-azure { background-color: #0078D4; }
         .btn-github { background-color: #24292e; }
         .hint { color: #555; font-size: 0.9rem; margin-top: 0.75rem; }
+        .msg { padding: 0.6rem 0.8rem; border-radius: 6px; margin-bottom: 0.75rem; }
+        .msg-ok { background: #e6ffed; border: 1px solid #b7eb8f; color: #135200; }
+        .msg-err { background: #fff1f0; border: 1px solid #ffa39e; color: #a8071a; }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="card">
+        <div th:if="${param.logout}" class="msg msg-ok">You have been logged out.</div>
+        <div th:if="${param.error}" class="msg msg-err">Authentication error. Please try again.</div>
         <h1>Welcome</h1>
         <p>Please sign in using one of the providers below:</p>
         <div class="providers">
