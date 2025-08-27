@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body { font-family: system-ui, Arial, sans-serif; margin: 2rem; }
+        .container { max-width: 480px; margin: 0 auto; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; }
+        h1 { font-size: 1.5rem; margin-top: 0; }
+        .providers { display: flex; gap: 1rem; margin-top: 1rem; }
+        .btn { display: inline-block; padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none; color: white; font-weight: 600; }
+        .btn-azure { background-color: #0078D4; }
+        .btn-github { background-color: #24292e; }
+        .hint { color: #555; font-size: 0.9rem; margin-top: 0.75rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h1>Welcome</h1>
+        <p>Please sign in using one of the providers below:</p>
+        <div class="providers">
+            <a class="btn btn-azure" href="/oauth2/authorization/azure">Login with Microsoft 365</a>
+            <a class="btn btn-github" href="/oauth2/authorization/github">Login with GitHub</a>
+        </div>
+        <p class="hint">In development, the app runs on port 3000 and GitHub callback is /auth/callback/github.</p>
+    </div>
+</div>
+</body>
+</html>
