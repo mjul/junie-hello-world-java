@@ -44,13 +44,13 @@ Prerequisites:
   - [ ] Spotless/Checkstyle or formatting policy
 
 ## Phase 2 — Minimal runnable app (static page on port 3000 in dev)
-- [ ] Create `Application` main class to start Spring Boot
-- [ ] Add `application.yml` (base) and `application-dev.yml` (development)
-  - [ ] Base: enable Flyway, thymeleaf cache=true, JPA `open-in-view=false`, ddl-auto=validate
-  - [ ] Dev: `server.port: 3000`, `spring.thymeleaf.cache: false`; H2 datasource
-- [ ] Controller for `/` (and `/login` alias) that serves a simple static Thymeleaf page
-- [ ] Template `templates/login.html` with placeholder content (no auth yet)
-- [ ] Verify: `mvn spring-boot:run -Dspring-boot.run.profiles=dev` serves http://localhost:3000/
+- [x] Create `Application` main class to start Spring Boot
+- [x] Add `application.yml` (base) and `application-dev.yml` (development)
+  - [x] Base: enable Flyway, thymeleaf cache=true, JPA `open-in-view=false`, ddl-auto=validate
+  - [x] Dev: `server.port: 3000`, `spring.thymeleaf.cache: false`; H2 datasource
+- [x] Controller for `/` (and `/login` alias) that serves a simple static Thymeleaf page
+- [x] Template `templates/login.html` with placeholder content (no auth yet)
+- [x] Verify: `mvn spring-boot:run -Dspring-boot.run.profiles=dev` serves http://localhost:3000/
 
 ## Phase 3 — Security baseline (no external OAuth yet)
 - [ ] Add Spring Security configuration class
