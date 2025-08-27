@@ -124,9 +124,9 @@ Prerequisites:
 - [x] Template tests (optional): verify greeting and CSRF field presence
 
 ## Phase 11 — Production configuration and packaging
-- [ ] Ensure production `application.yml` uses PostgreSQL and Flyway
-- [ ] Build fat JAR via Maven
-- [ ] Document environment variables and deployment instructions (HTTPS required in prod)
+- [x] Ensure production `application.yml` uses PostgreSQL and Flyway
+- [x] Build fat JAR via Maven
+- [x] Document environment variables and deployment instructions (HTTPS required in prod)
 - [ ] Optional: Dockerfile and containerization instructions
 
 ## Phase 12 — Documentation

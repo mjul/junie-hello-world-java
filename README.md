@@ -54,3 +54,22 @@ The pre-commit hook will:
 - Run mvn -DskipTests=true spotless:apply
 - Stage any changes it makes
 - Run mvn -DskipTests=true spotless:check and block the commit if formatting still fails
+
+## Production configuration (PostgreSQL)
+
+The base application.yml is set up for production defaults using PostgreSQL. Configure via environment variables:
+
+- SPRING_DATASOURCE_URL (e.g., jdbc:postgresql://localhost:5432/app)
+- SPRING_DATASOURCE_USERNAME (e.g., app)
+- SPRING_DATASOURCE_PASSWORD or DB_PASSWORD
+
+Flyway migrations are enabled by default and run on startup.
+
+## Build and Run
+
+- Build and test: mvn -B verify
+- Package fat JAR: mvn -DskipTests package
+- Run (prod defaults): java -jar target/hello-sso-0.0.1-SNAPSHOT.jar
+- Run in development (port 3000, H2): java -jar target/hello-sso-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+
+HTTPS is required in production. If running behind a reverse proxy/ingress, ensure proper forwarding headers are configured (e.g., server.forward-headers-strategy=framework) and cookies are marked Secure when using HTTPS.
