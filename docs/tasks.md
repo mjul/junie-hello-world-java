@@ -20,26 +20,26 @@ Prerequisites:
 - [ ] Establish standard project layout: `src/main/java`, `src/main/resources`, `src/test/java`
 
 ## Phase 1 — Build and test infrastructure (skeleton first)
-- [ ] Initialize Maven Spring Boot project (Java 17)
+- [x] Initialize Maven Spring Boot project (Java 17)
   - Group/Artifact: e.g., `com.example:hello-sso`
   - Add Spring Boot 3.x parent and plugins (spring-boot-maven-plugin)
-- [ ] Dependencies
-  - [ ] spring-boot-starter-web
-  - [ ] spring-boot-starter-thymeleaf
-  - [ ] spring-boot-starter-security
-  - [ ] spring-boot-starter-oauth2-client
-  - [ ] spring-boot-starter-data-jpa
-  - [ ] flyway-core
-  - [ ] database drivers: `com.h2database:h2` (test+dev), `org.postgresql:postgresql` (prod)
-  - [ ] testing: spring-boot-starter-test (JUnit 5), Mockito
+- [x] Dependencies
+  - [x] spring-boot-starter-web
+  - [x] spring-boot-starter-thymeleaf
+  - [x] spring-boot-starter-security
+  - [x] spring-boot-starter-oauth2-client
+  - [x] spring-boot-starter-data-jpa
+  - [x] flyway-core
+  - [x] database drivers: `com.h2database:h2` (test+dev), `org.postgresql:postgresql` (prod)
+  - [x] testing: spring-boot-starter-test (JUnit 5), Mockito
   - [ ] optional: spring-boot-starter-actuator (health/info)
-- [ ] Maven config
-  - [ ] Java 17 toolchain or `maven-compiler-plugin` set to 17
-  - [ ] surefire/failsafe setup (JUnit Platform)
-  - [ ] Reproducible builds, dependency management via Spring BOM
-- [ ] CI (GitHub Actions)
-  - [ ] Workflow: checkout → setup-java (temurin 17) → cache maven → mvn -B verify
-  - [ ] Fail on test or style errors
+- [x] Maven config
+  - [x] Java 17 toolchain or `maven-compiler-plugin` set to 17
+  - [x] surefire/failsafe setup (JUnit Platform)
+  - [x] Reproducible builds, dependency management via Spring BOM
+- [x] CI (GitHub Actions)
+  - [x] Workflow: checkout → setup-java (temurin 17) → cache maven → mvn -B verify
+  - [x] Fail on test or style errors
 - [ ] Code quality (optional early or later)
   - [ ] Spotless/Checkstyle or formatting policy
 
