@@ -61,11 +61,11 @@ Prerequisites:
 - [x] Add login page buttons that link to `/oauth2/authorization/azure` and `/oauth2/authorization/github` (links can be inert until OAuth is configured)
 
 ## Phase 4 — Persistence foundation
-- [ ] Define JPA `User` entity (fields per requirements: provider, externalId, username, displayName, email, avatarUrl, timestamps)
-- [ ] Create `UserRepository` with lookup by provider + externalId
-- [ ] Add Flyway migration `V1__init.sql` to create `app_user` with unique constraint `(provider, external_id)`
-- [ ] Configure H2 for dev/test, PostgreSQL for prod
-- [ ] Add basic data access test against H2
+- [x] Define JPA `User` entity (fields per requirements: provider, externalId, username, displayName, email, avatarUrl, timestamps)
+- [x] Create `UserRepository` with lookup by provider + externalId
+- [x] Add Flyway migration `V1__init.sql` to create `app_user` with unique constraint `(provider, external_id)`
+- [x] Configure H2 for dev/test, PostgreSQL for prod
+- [x] Add basic data access test against H2
 
 ## Phase 5 — OAuth2 client configuration
 - [ ] Base `application.yml` OAuth2 client sections (Azure and GitHub) using env vars
