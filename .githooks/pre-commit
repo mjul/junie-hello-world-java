@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+# Pre-commit hook to format code with Spotless (Google Java Format)
+
+# Exit on any error
+set -e
+
+# Ensure Maven is available
+if ! command -v mvn >/dev/null 2>&1; then
+  echo "[pre-commit] Maven (mvn) not found in PATH. Skipping code formatting."
+  exit 0
+fi
+
+echo "[pre-commit] Running Spotless formatter..."
+# Apply formatting (do not run tests)
+mvn -q -DskipTests=true spotless:apply
+
+# Add any changes Spotless made to the index so they are included in this commit
+git add -A
+
+# Verify formatting to be safe
+if ! mvn -q -DskipTests=true spotless:check; then
+  echo "[pre-commit] Spotless check failed. Please review formatting changes and commit again."
+  exit 1
+fi
+
+echo "[pre-commit] Formatting OK. Proceeding with commit."
+exit 0

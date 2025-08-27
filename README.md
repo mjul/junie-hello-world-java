@@ -34,3 +34,23 @@ spring:
 ```
 
 Ensure your Spring Security OAuth2 login redirection endpoint accepts this path (e.g., base URI `/auth/callback/*`).
+
+## Code formatting and pre-commit hook
+
+This project uses Spotless (Google Java Format) to ensure consistent code layout.
+
+- Format code manually anytime:
+  - mvn spotless:apply
+- Check formatting without changing files:
+  - mvn spotless:check
+
+To automatically format code before each commit, enable the provided Git hook once per clone:
+
+1. git config core.hooksPath .githooks
+2. (Optional) Make sure the hook is executable on your system:
+   - chmod +x .githooks/pre-commit
+
+The pre-commit hook will:
+- Run mvn -DskipTests=true spotless:apply
+- Stage any changes it makes
+- Run mvn -DskipTests=true spotless:check and block the commit if formatting still fails
