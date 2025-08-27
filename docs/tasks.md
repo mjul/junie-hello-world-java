@@ -91,16 +91,16 @@ Prerequisites:
 - [x] Wire CustomOAuth2UserService into Security config `.userInfoEndpoint(...userService(...))`
 
 ## Phase 7 — Authenticated experience and logout
-- [ ] Implement `MeController` (`GET /me`)
-  - [ ] Resolve authenticated principal and load local `User`
-  - [ ] Pass user model (display name, avatar) to view
-- [ ] Thymeleaf templates
-  - [ ] `login.html`: provider buttons linking to `/oauth2/authorization/{id}`; show errors, logout message
-  - [ ] `me.html`: "hello {user_name}", avatar, logout form with CSRF hidden input
-  - [ ] `error.html`: friendly error page with a retry link
-- [ ] Verify access control
-  - [ ] Anonymous to `/me` → redirected to `/login`
-  - [ ] POST `/logout` terminates session and redirects to `/login?logout`
+- [x] Implement `MeController` (`GET /me`)
+  - [x] Resolve authenticated principal and load local `User`
+  - [x] Pass user model (display name, avatar) to view
+- [x] Thymeleaf templates
+  - [x] `login.html`: provider buttons linking to `/oauth2/authorization/{id}`; show errors, logout message
+  - [x] `me.html`: "hello {user_name}", avatar, logout form with CSRF hidden input
+  - [x] `error.html`: friendly error page with a retry link
+- [x] Verify access control
+  - [x] Anonymous to `/me` → redirected to `/login`
+  - [x] POST `/logout` terminates session and redirects to `/login?logout`
 
 ## Phase 8 — Error handling and UX polish
 - [ ] Global error handling (`@ControllerAdvice` or `ErrorController`) to render friendly error page
