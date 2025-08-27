@@ -114,14 +114,14 @@ Prerequisites:
 - [x] Review security headers (Spring defaults; consider additional headers)
 
 ## Phase 10 — Testing
-- [ ] Unit tests
-  - [ ] Name resolution logic and provider mapping (GitHub/Azure)
-  - [ ] `UserService` upsert and timestamp updates
-- [ ] Integration tests (Spring Security/MVC)
-  - [ ] Access control: `/me` requires auth; `/` is public
-  - [ ] OAuth2 login success/failure flows using Spring Security test support or WireMock
-  - [ ] Persistence with H2; optional Testcontainers for PostgreSQL
-- [ ] Template tests (optional): verify greeting and CSRF field presence
+- [x] Unit tests
+  - [x] Name resolution logic and provider mapping (GitHub/Azure)
+  - [x] `UserService` upsert and timestamp updates
+- [x] Integration tests (Spring Security/MVC)
+  - [x] Access control: `/me` requires auth; `/` is public
+  - [x] OAuth2 login success/failure flows using Spring Security test support or WireMock
+  - [x] Persistence with H2; optional Testcontainers for PostgreSQL
+- [x] Template tests (optional): verify greeting and CSRF field presence
 
 ## Phase 11 — Production configuration and packaging
 - [ ] Ensure production `application.yml` uses PostgreSQL and Flyway
