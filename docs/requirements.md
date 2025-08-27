@@ -22,7 +22,7 @@ This project is a small web application built with Java and Spring Boot that pro
 1. WHEN a user visits the application root URL (e.g., `/`) THEN the system SHALL display a login page with clearly labeled Microsoft 365 and GitHub login options.
 2. WHEN a user clicks the Microsoft 365 login button THEN the system SHALL redirect to Spring Security’s OAuth2 client authorization endpoint, e.g., `/oauth2/authorization/azure` (registrationId configurable).
 3. WHEN a user clicks the GitHub login button THEN the system SHALL redirect to `/oauth2/authorization/github`.
-4. WHEN OAuth2/OIDC authorization is successful THEN the system SHALL receive an authorization code at `/login/oauth2/code/{registrationId}` and exchange it for an access token using Spring Security OAuth2 Client.
+4. WHEN OAuth2/OIDC authorization is successful THEN the system SHALL receive an authorization code at `/login/oauth2/code/{registrationId}` and exchange it for an access token using Spring Security OAuth2 Client. In development for GitHub, the callback URL SHALL be `http://localhost:3000/auth/callback/github` (i.e., `/auth/callback/{registrationId}`), and the security configuration SHALL be aligned accordingly.
 5. WHEN the access token is obtained THEN the system SHALL retrieve the user’s profile from the respective provider:
    - Microsoft 365: Microsoft Graph `/v1.0/me` (requires appropriate scope such as `User.Read`).
    - GitHub: `https://api.github.com/user` (and `.../emails` if primary email is not provided and email access is permitted).
@@ -78,7 +78,8 @@ Name Resolution priority:
 - GET `/` → Login page (public)
 - GET `/login` → Login page (public; optional alias for `/`)
 - GET `/oauth2/authorization/{registrationId}` → Initiates OAuth2 flow (e.g., `azure`, `github`)
-- GET `/login/oauth2/code/{registrationId}` → OAuth2 redirect URI (handled by Spring Security)
+- GET `/login/oauth2/code/{registrationId}` → OAuth2 redirect URI (handled by Spring Security; default in production)
+- GET `/auth/callback/{registrationId}` → OAuth2 redirect URI (development override; e.g., `http://localhost:3000/auth/callback/github`)
 - GET `/me` → Personal page (authenticated)
 - POST `/logout` → Logout (authenticated; requires CSRF token)
 - GET `/error` → Error page (public)
@@ -158,6 +159,38 @@ spring:
             user-info-uri: https://api.github.com/user
             user-name-attribute: id
 ```
+
+Development profile specifics (example `application-dev.yml`):
+```yaml
+server:
+  port: 3000
+
+spring:
+  thymeleaf:
+    cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            redirect-uri: "{baseUrl}/auth/callback/{registrationId}"
+```
+
+Security configuration note (for Java config): ensure the OAuth2 login redirection endpoint base URI matches the development callback path. For example:
+
+```text
+http
+  .authorizeHttpRequests(auth -> auth
+    .requestMatchers("/", "/login", "/error", "/css/**", "/js/**").permitAll()
+    .anyRequest().authenticated()
+  )
+  .oauth2Login(oauth -> oauth
+    .redirectionEndpoint(redir -> redir.baseUri("/auth/callback/*"))
+  );
+```
+
+Also configure your GitHub OAuth App with the callback URL:
+- http://localhost:3000/auth/callback/github
 
 For development, replace the datasource with H2, enable Thymeleaf cache=false, and optionally set `server.ssl.enabled=false` if not using HTTPS locally.
 
