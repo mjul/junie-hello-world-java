@@ -108,10 +108,10 @@ Prerequisites:
 - [x] Input validation and safe defaults
 
 ## Phase 9 — Logging, observability, and hardening
-- [ ] Configure SLF4J/Logback; mask secrets
-- [ ] Optional: add Actuator (`/actuator/health`, `/actuator/info`)
-- [ ] Cookie/session hardening (HttpOnly, Secure in HTTPS, SameSite=Lax)
-- [ ] Review security headers (Spring defaults; consider additional headers)
+- [x] Configure SLF4J/Logback; mask secrets
+- [x] Optional: add Actuator (`/actuator/health`, `/actuator/info`)
+- [x] Cookie/session hardening (HttpOnly, Secure in HTTPS, SameSite=Lax)
+- [x] Review security headers (Spring defaults; consider additional headers)
 
 ## Phase 10 — Testing
 - [ ] Unit tests

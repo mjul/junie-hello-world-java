@@ -78,13 +78,11 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Optional: actuator for health/info (can enable later) -->
-    <!--
+    <!-- Optional: actuator for health/info (enabled for Phase 9) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
-    -->
   </dependencies>
 
   <build>
