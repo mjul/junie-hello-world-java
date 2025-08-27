@@ -79,16 +79,16 @@ Prerequisites:
 - [x] Configure a GitHub OAuth App with callback: `http://localhost:3000/auth/callback/github`
 
 ## Phase 6 — Provider profile mapping and user onboarding
-- [ ] Implement `ProviderProfile` record to normalize user data
-- [ ] Implement `CustomOAuth2UserService`
-  - [ ] Extend `DefaultOAuth2UserService`
-  - [ ] For GitHub: fetch `/user`, and if email is null and scope granted, fetch `/user/emails` to find primary verified
-  - [ ] For Azure: map Graph `/v1.0/me` fields (displayName, mailNickname, userPrincipalName)
-  - [ ] Build `ProviderProfile` with name resolution priority
-- [ ] Implement `UserService`
-  - [ ] `getOrCreateFromProviderProfile` upserts `User`, updates `lastLoginAt`, changed attributes
-  - [ ] Transactional boundaries
-- [ ] Wire CustomOAuth2UserService into Security config `.userInfoEndpoint(...userService(...))`
+- [x] Implement `ProviderProfile` record to normalize user data
+- [x] Implement `CustomOAuth2UserService`
+  - [x] Extend `DefaultOAuth2UserService`
+  - [x] For GitHub: fetch `/user`, and if email is null and scope granted, fetch `/user/emails` to find primary verified
+  - [x] For Azure: map Graph `/v1.0/me` fields (displayName, mailNickname, userPrincipalName)
+  - [x] Build `ProviderProfile` with name resolution priority
+- [x] Implement `UserService`
+  - [x] `getOrCreateFromProviderProfile` upserts `User`, updates `lastLoginAt`, changed attributes
+  - [x] Transactional boundaries
+- [x] Wire CustomOAuth2UserService into Security config `.userInfoEndpoint(...userService(...))`
 
 ## Phase 7 — Authenticated experience and logout
 - [ ] Implement `MeController` (`GET /me`)
