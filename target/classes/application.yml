@@ -1,0 +1,9 @@
+spring:
+  thymeleaf:
+    cache: true
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true

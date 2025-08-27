@@ -53,12 +53,12 @@ Prerequisites:
 - [x] Verify: `mvn spring-boot:run -Dspring-boot.run.profiles=dev` serves http://localhost:3000/
 
 ## Phase 3 — Security baseline (no external OAuth yet)
-- [ ] Add Spring Security configuration class
-  - [ ] Permit `/`, `/login`, `/error`, and static assets (`/css/**`, `/js/**`, `/images/**`)
-  - [ ] Require auth for all other endpoints
-  - [ ] Enable CSRF (default)
-- [ ] Ensure logout endpoint configured: POST `/logout` → redirect `/login?logout`
-- [ ] Add login page buttons that link to `/oauth2/authorization/azure` and `/oauth2/authorization/github` (links can be inert until OAuth is configured)
+- [x] Add Spring Security configuration class
+  - [x] Permit `/`, `/login`, `/error`, and static assets (`/css/**`, `/js/**`, `/images/**`)
+  - [x] Require auth for all other endpoints
+  - [x] Enable CSRF (default)
+- [x] Ensure logout endpoint configured: POST `/logout` → redirect `/login?logout`
+- [x] Add login page buttons that link to `/oauth2/authorization/azure` and `/oauth2/authorization/github` (links can be inert until OAuth is configured)
 
 ## Phase 4 — Persistence foundation
 - [ ] Define JPA `User` entity (fields per requirements: provider, externalId, username, displayName, email, avatarUrl, timestamps)
