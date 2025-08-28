@@ -11,20 +11,22 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 @Profile("test")
 public class TestClientsConfig {
 
-    @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        ClientRegistration github = ClientRegistration.withRegistrationId("github")
-                .clientId("test-client-id")
-                .clientSecret("test-secret")
-                .authorizationGrantType(org.springframework.security.oauth2.core.AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
-                .scope("read:user", "user:email")
-                .authorizationUri("https://github.com/login/oauth/authorize")
-                .tokenUri("https://github.com/login/oauth/access_token")
-                .userInfoUri("https://api.github.com/user")
-                .userNameAttributeName("id")
-                .clientName("GitHub")
-                .build();
-        return new InMemoryClientRegistrationRepository(github);
-    }
+  @Bean
+  public ClientRegistrationRepository clientRegistrationRepository() {
+    ClientRegistration github =
+        ClientRegistration.withRegistrationId("github")
+            .clientId("test-client-id")
+            .clientSecret("test-secret")
+            .authorizationGrantType(
+                org.springframework.security.oauth2.core.AuthorizationGrantType.AUTHORIZATION_CODE)
+            .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
+            .scope("read:user", "user:email")
+            .authorizationUri("https://github.com/login/oauth/authorize")
+            .tokenUri("https://github.com/login/oauth/access_token")
+            .userInfoUri("https://api.github.com/user")
+            .userNameAttributeName("id")
+            .clientName("GitHub")
+            .build();
+    return new InMemoryClientRegistrationRepository(github);
+  }
 }

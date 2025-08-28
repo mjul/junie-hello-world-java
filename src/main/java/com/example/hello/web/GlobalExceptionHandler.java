@@ -7,26 +7,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-/**
- * Global error handling to provide a friendly error page and safe fallbacks.
- */
+/** Global error handling to provide a friendly error page and safe fallbacks. */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+  private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(OAuth2AuthenticationException.class)
-    public String handleOAuth2AuthError(OAuth2AuthenticationException ex) {
-        // Redirect the user back to login with a generic error indicator
-        log.debug("OAuth2AuthenticationException: {}", ex.getMessage());
-        return "redirect:/login?error";
-    }
+  @ExceptionHandler(OAuth2AuthenticationException.class)
+  public String handleOAuth2AuthError(OAuth2AuthenticationException ex) {
+    // Redirect the user back to login with a generic error indicator
+    log.debug("OAuth2AuthenticationException: {}", ex.getMessage());
+    return "redirect:/login?error";
+  }
 
-    @ExceptionHandler(Exception.class)
-    public String handleGenericError(Exception ex, Model model) {
-        // Log details server-side; render a friendly error page for the user
-        log.error("Unhandled exception in MVC layer", ex);
-        model.addAttribute("message", "Something went wrong. Please try again.");
-        return "error";
-    }
+  @ExceptionHandler(Exception.class)
+  public String handleGenericError(Exception ex, Model model) {
+    // Log details server-side; render a friendly error page for the user
+    log.error("Unhandled exception in MVC layer", ex);
+    model.addAttribute("message", "Something went wrong. Please try again.");
+    return "error";
+  }
 }
