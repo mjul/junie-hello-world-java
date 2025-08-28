@@ -7,6 +7,11 @@ spring:
       ddl-auto: validate
   flyway:
     enabled: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/app}
+    username: ${SPRING_DATASOURCE_USERNAME:app}
+    password: ${SPRING_DATASOURCE_PASSWORD:${DB_PASSWORD:__unset__}}
+    driver-class-name: org.postgresql.Driver
   security:
     oauth2:
       client:

@@ -130,11 +130,11 @@ Prerequisites:
 - [ ] Optional: Dockerfile and containerization instructions
 
 ## Phase 12 — Documentation
-- [ ] Update README with:
-  - [ ] Quickstart (dev): run on port 3000, profiles, OAuth setup
-  - [ ] Configuration reference (env vars)
-  - [ ] Development workflow (run, test, lint)
-  - [ ] Troubleshooting (common OAuth errors)
+- [x] Update README with:
+  - [x] Quickstart (dev): run on port 3000, profiles, OAuth setup
+  - [x] Configuration reference (env vars)
+  - [x] Development workflow (run, test, lint)
+  - [x] Troubleshooting (common OAuth errors)
 
 ---
 
