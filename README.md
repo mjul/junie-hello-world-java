@@ -20,8 +20,11 @@ Steps:
      - AZURE_CLIENT_SECRET=...
      - AZURE_TENANT_ID=common
 3. Run in dev profile (port 3000; H2):
-   - `mvn -Dspring-boot.run.profiles=dev spring-boot:run`
-   - Or: `mvn -B -DskipTests package && java -jar target/hello-sso-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev`
+   - `mvn spring-boot:run -Dspring-boot.run.profiles=dev`
+   - Or (Unix/macOS): `SPRING_PROFILES_ACTIVE=dev mvn spring-boot:run`
+   - Or (Windows CMD): `set SPRING_PROFILES_ACTIVE=dev && mvn spring-boot:run`
+   - Or (PowerShell): `$env:SPRING_PROFILES_ACTIVE='dev'; mvn spring-boot:run`
+   - Or JAR: `mvn -B -DskipTests package && java -jar target/hello-sso-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev`
 4. Open http://localhost:3000/ and click the GitHub (or Microsoft) button to log in.
 
 Notes:
@@ -50,7 +53,7 @@ Profiles:
 ## Development Workflow
 
 Common commands:
-- Run dev server: `mvn -Dspring-boot.run.profiles=dev spring-boot:run`
+- Run dev server: `mvn spring-boot:run -Dspring-boot.run.profiles=dev`
 - Run tests: `mvn -B test (or mvn -B verify)`
 - Format code (Spotless): `mvn spotless:apply`
 - Check formatting: `mvn spotless:check`
@@ -62,6 +65,8 @@ Git hook (optional):
   - `chmod +x .githooks/pre-commit` (if needed)
 
 ## Troubleshooting (OAuth and Dev)
+
+- If you see `Unknown lifecycle phase ".run.profiles=dev"`, ensure there is no space after `-D` (it must be `-Dspring-boot.run.profiles=dev`) and prefer placing the goal before the property: `mvn spring-boot:run -Dspring-boot.run.profiles=dev`. In PowerShell, quote the property: `-D"spring-boot.run.profiles=dev"`.
 
 - Redirect URI mismatch: Ensure your GitHub OAuth App callback is exactly http://localhost:3000/auth/callback/github when using the dev profile.
 - Invalid client or secret: Verify GITHUB_CLIENT_ID/GITHUB_CLIENT_SECRET (and Azure equivalents) are exported in the same shell running the app.
