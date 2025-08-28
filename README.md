@@ -20,13 +20,13 @@ Steps:
      - AZURE_CLIENT_SECRET=...
      - AZURE_TENANT_ID=common
 3. Run in dev profile (port 3000; H2):
-   - mvn -Dspring-boot.run.profiles=dev spring-boot:run
-   - Or: mvn -B -DskipTests package && java -jar target/hello-sso-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+   - `mvn -Dspring-boot.run.profiles=dev spring-boot:run`
+   - Or: `mvn -B -DskipTests package && java -jar target/hello-sso-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev`
 4. Open http://localhost:3000/ and click the GitHub (or Microsoft) button to log in.
 
 Notes:
-- In dev, the redirect endpoint is /auth/callback/{registrationId}. The security config and application-dev.yml are aligned for this.
-- In production, the default redirect is /login/oauth2/code/{registrationId}.
+- In dev, the redirect endpoint is `/auth/callback/{registrationId}`. The security config and `application-dev.yml` are aligned for this.
+- In production, the default redirect is `/login/oauth2/code/{registrationId}`.
 
 ## Configuration Reference
 
@@ -50,16 +50,16 @@ Profiles:
 ## Development Workflow
 
 Common commands:
-- Run dev server: mvn -Dspring-boot.run.profiles=dev spring-boot:run
-- Run tests: mvn -B test (or mvn -B verify)
-- Format code (Spotless): mvn spotless:apply
-- Check formatting: mvn spotless:check
-- Package JAR: mvn -B -DskipTests package
+- Run dev server: `mvn -Dspring-boot.run.profiles=dev spring-boot:run`
+- Run tests: `mvn -B test (or mvn -B verify)`
+- Format code (Spotless): `mvn spotless:apply`
+- Check formatting: `mvn spotless:check`
+- Package JAR: `mvn -B -DskipTests package`
 
 Git hook (optional):
 - Enable automatic formatting before commit:
-  - git config core.hooksPath .githooks
-  - chmod +x .githooks/pre-commit (if needed)
+  - `git config core.hooksPath .githooks`
+  - `chmod +x .githooks/pre-commit` (if needed)
 
 ## Troubleshooting (OAuth and Dev)
 
@@ -90,9 +90,9 @@ Flyway migrations are enabled and run on startup.
 
 ## Build and Run
 
-- Build and test: mvn -B verify
-- Package fat JAR: mvn -DskipTests package
-- Run (prod defaults): java -jar target/hello-sso-0.0.1-SNAPSHOT.jar
-- Run in development (port 3000, H2): java -jar target/hello-sso-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+- Build and test: `mvn -B verify`
+- Package fat JAR: `mvn -DskipTests package`
+- Run (prod defaults): `java -jar target/hello-sso-0.0.1-SNAPSHOT.jar`
+- Run in development (port 3000, H2): `java -jar target/hello-sso-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev`
 
 HTTPS is required in production. If running behind a reverse proxy/ingress, ensure proper forwarding headers are configured (e.g., server.forward-headers-strategy=framework) and cookies are marked Secure when using HTTPS.
