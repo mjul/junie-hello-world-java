@@ -53,7 +53,10 @@ Profiles:
 ## Development Workflow
 
 Common commands:
-- Run dev server: `mvn spring-boot:run -Dspring-boot.run.profiles=dev`
+- Run dev server:
+  - Unix/macOS: `SPRING_PROFILES_ACTIVE=dev mvn spring-boot:run`
+  - Windows CMD: `set SPRING_PROFILES_ACTIVE=dev && mvn spring-boot:run`
+  - PowerShell: `$env:SPRING_PROFILES_ACTIVE='dev'; mvn spring-boot:run`
 - Run tests: `mvn -B test (or mvn -B verify)`
 - Format code (Spotless): `mvn spotless:apply`
 - Check formatting: `mvn spotless:check`
